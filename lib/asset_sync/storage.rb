@@ -76,7 +76,7 @@ module AssetSync
         elsif File.exist?(self.config.manifest_path)
           log "Using: Manifest #{self.config.manifest_path}"
           yml = YAML.load(IO.read(self.config.manifest_path))
-   
+
           return yml.map do |original, compiled|
             # Upload font originals and compiled
             if original =~ /^.+(eot|svg|ttf|woff)$/
@@ -137,7 +137,7 @@ module AssetSync
         :content_type => mime
       }
 
-      if /-[0-9a-fA-F]{32,}$/.match(File.basename(f,File.extname(f)))
+      if /-[0-9a-fA-F]{64,}$/.match(File.basename(f,File.extname(f)))
         file.merge!({
           :cache_control => "public, max-age=#{one_year}",
           :expires => CGI.rfc1123_date(Time.now + one_year)
